@@ -7,15 +7,12 @@
 .PARAMETER Path
     The path to specify such as 'C:\Temp'.
 #>
-
-
 function BeginnerGetFile {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory,
             ValueFromPipeline)]
         [ValidateNotNullOrEmpty()]
-        
         [ValidateScript( { Test-Path -PathType Container $_ } )]
         [string]$Path
     )
