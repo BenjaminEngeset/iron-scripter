@@ -1,4 +1,4 @@
-function EnableOrDisableWindowsOptionalFeature {
+function Set-WindowsOptionalFeature {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -10,7 +10,7 @@ function EnableOrDisableWindowsOptionalFeature {
     )   
     process {
         if ((Get-WindowsOptionalFeature -FeatureName $FeatureName -Online).State -match "^$($Status)") {
-            return Write-Output $PSStyle.Foreground.Cyan "The feature is already $($Status)d." $PSStyle.Reset
+            return "The feature is already $($Status)d."
         }
         if ($Status -eq 'Enable') {
             Enable-WindowsOptionalFeature -FeatureName $FeatureName -Online
