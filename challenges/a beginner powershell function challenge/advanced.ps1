@@ -45,7 +45,7 @@ function ConvertTo-Fahrenheit {
                 if ($temperature -ge -273.15) {
                     [PSCustomObject]@{
                         Celsius   = $temperature
-                        Farenheit = [math]::Round(($temperature * 1.8) + 32, $Precision)
+                        Farenheit = '{0:0.0}' -f ([math]::Round(($temperature * 1.8) + 32, $Precision))
                     }
                 }
                 else {
