@@ -43,7 +43,7 @@ function Get-RegisteredUser {
         }
     }
     end {
-        Write-Verbose "Endting $($MyInvocation.MyCommand)" 
+        Write-Verbose "Ending $($MyInvocation.MyCommand)"
     }
 }
 

@@ -1,14 +1,55 @@
-# Possible solution 1
-$string = 'PowerShell'
+# Task:
+# Write PowerShell code to take a string like ‘PowerShell’ and display it in reverse. Your solution can be a simple script or function.
 
-$arrayCharacters = $string.ToCharArray()
+# Solution 1
+function ConvertTo-ReverseString {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory, ValueFromPipeline, Position = 0)]
+        [string]$String
+    )
+    
+    begin {
+        Write-Verbose "Starting $($MyInvocation.MyCommand)"
+    }
+    
+    process {
+        $charArray = $String.ToCharArray()
+        [array]::Reverse($charArray)
+        -join $charArray | ForEach-Object {
+            [PSCustomObject]@{
+                PSTypeName     = 'ReversedString'
+                OrginialString = $String
+                ReversedString = $_
+            }
+        }
+    }
+    end {
+        Write-Verbose "Ending $($myinvocation.MyCommand)"
+    }
+}
 
-[array]::Reverse($arrayCharacters)
-
-$reversedString1 = $arraycharacters -join ''
-
-
-# Possible solution 2
-$string = 'PowerShell'
-
-$reversedString2[-1..-($string.length)] -join ''
+# Solution 2
+function ConvertTo-ReverseString {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory, ValueFromPipeline, Position = 0)]
+        [string]$String
+    )
+    
+    begin {
+        Write-Verbose "Starting $($MyInvocation.MyCommand)"
+    }
+    
+    process {
+        $reversedString = $String[-1..-($String.Length)] -join ''
+        [PSCustomObject]@{
+            PSTypeName     = 'ReversedString'
+            OrginialString = $String
+            ReversedString = $reversedString
+        }
+    }
+    end {
+        Write-Verbose "Ending $($myinvocation.MyCommand)"
+    }
+}
