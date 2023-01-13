@@ -2,54 +2,67 @@
 # Write PowerShell code to take a string like ‘PowerShell’ and display it in reverse. Your solution can be a simple script or function.
 
 # Solution 1
-function ConvertTo-ReverseString {
+function ConvertTo-ReverseWord {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory, ValueFromPipeline, Position = 0)]
-        [string]$String
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline, 
+            Position = 0,
+            HelpMessage = 'Enter a word.'
+        )]
+        [string]$Word
     )
     
     begin {
-        Write-Verbose "Starting $($MyInvocation.MyCommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN] Starting $($MyInvocation.MyCommand)"
     }
     
     process {
-        $charArray = $String.ToCharArray()
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Processing $Word"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Word length is $($Word.Length)"
+        $charArray = $Word.ToCharArray()
         [array]::Reverse($charArray)
-        -join $charArray | ForEach-Object {
-            [PSCustomObject]@{
-                PSTypeName     = 'ReversedString'
-                OrginialString = $String
-                ReversedString = $_
-            }
+        $reversedWord = -join $charArray
+        [PSCustomObject]@{
+            PSTypeName   = 'ReversedWord'
+            OrginialWord = $Word
+            ReversedWord = $reversedWord
         }
     }
     end {
-        Write-Verbose "Ending $($myinvocation.MyCommand)"
+        Write-Verbose "[$((Get-Date).TimeofDay) END] Ending $($myinvocation.MyCommand)"
     }
 }
 
 # Solution 2
-function ConvertTo-ReverseString {
+function ConvertTo-ReverseWord {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory, ValueFromPipeline, Position = 0)]
-        [string]$String
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline, 
+            Position = 0,
+            HelpMessage = 'Enter a word.'
+        )]
+        [string]$Word
     )
     
     begin {
-        Write-Verbose "Starting $($MyInvocation.MyCommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN] Starting $($MyInvocation.MyCommand)"
     }
     
     process {
-        $reversedString = $String[-1..-($String.Length)] -join ''
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Processing $Word"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Word length is $($Word.Length)"
+        $reversedWord = ($Word[-1.. - ($Word.Length)]) -join ''
         [PSCustomObject]@{
-            PSTypeName     = 'ReversedString'
-            OrginialString = $String
-            ReversedString = $reversedString
+            PSTypeName   = 'ReversedWord'
+            OrginialWord = $Word
+            ReversedWord = $reversedWord
         }
     }
     end {
-        Write-Verbose "Ending $($myinvocation.MyCommand)"
+        Write-Verbose "[$((Get-Date).TimeofDay) END] Ending $($myinvocation.MyCommand)"
     }
 }
