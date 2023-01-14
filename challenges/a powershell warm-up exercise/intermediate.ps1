@@ -37,7 +37,7 @@ function ConvertTo-ReverseSentence {
             Mandatory,
             ValueFromPipeline,
             Position = 0,
-            HelpMessage = 'Enter asentence.'
+            HelpMessage = 'Enter a sentence.'
         )]
         [string]$Sentence
     )
