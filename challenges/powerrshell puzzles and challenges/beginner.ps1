@@ -132,3 +132,30 @@ ForEach-Object {
     $_ | Select-Object -Property Name, Count, @{ Name = 'TotalWS'; Expression = { $stat.Sum } },
     @{ Name = 'PctUsedMemory'; Expression = { [math]::Round(($stat.Sum / $inUseMemory) * 100, 2) } }
 } | Sort-Object PctUsedMemory -Descending | Select-Object -First 10
+
+# Bonus 1
+# Create a directory called C:\DataFiles
+# Create 25 files of varying sizes between 1KB and 1MB with your own naming convention.
+# But don’t use something as simple as Test-1. Files should have a .dat extension.
+# Modify the creation and last write times to “age” the files between 10 and 100 days.
+New-Item -Name DataFiles -Path C:\ -ItemType Directory
+
+$svc = Get-Service
+1..25 | ForEach-Object {
+    $filename = [System.IO.Path]::ChangeExtension(([System.IO.Path]::GetRandomFileName()), 'dat')
+    $filePath = Join-Path -Path C:\DataFiles -ChildPath $filename
+
+    $svc[0..($_ + 5)] | Out-File -FilePath $filePath
+
+    $file = Get-Item -Path $filePath
+
+    $min = Get-Random -Minimum (60 * 24 * 10) -Maximum (60 * 24 * 100)
+    $age = (Get-Date).AddMinutes(- $min)
+
+    $file.CreationTime = $age
+    $file.CreationTimeUtc = $age.ToUniversalTime()
+    $file.LastWriteTime = $age
+    $file.LastWriteTimeUtc = $age.ToUniversalTime()
+}
+
+Get-ChildItem -Path C:\DataFiles
